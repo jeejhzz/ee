@@ -14,6 +14,7 @@
       --paper: #f6f8fb;
       --white: #ffffff;
       --mint: #1fba8a;
+      --cyan: #18a9c9;
       --danger: #e44949;
       --shadow: 0 18px 44px rgba(0, 21, 41, 0.12);
     }
@@ -53,6 +54,10 @@
     }
 
     .quiz-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
       padding: 28px clamp(24px, 4vw, 42px);
       background: var(--brand-navy);
       color: var(--white);
@@ -102,6 +107,80 @@
       background: linear-gradient(90deg, var(--brand-orange), #ff9a3d);
       border-radius: inherit;
       transition: width 260ms ease;
+    }
+
+    .chip-assembly {
+      padding: 22px clamp(24px, 4vw, 42px) 2px;
+      background: linear-gradient(180deg, #fbfcfe 0%, #fff 100%);
+      border-bottom: 1px solid rgba(221, 229, 240, 0.72);
+    }
+
+    .chip-frame {
+      position: relative;
+      width: min(100%, 330px);
+      aspect-ratio: 4 / 3;
+      margin: 0 auto 14px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #f7f9fc;
+      border: 1px solid rgba(215, 229, 243, 0.74);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.86);
+    }
+
+    .chip-piece {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(1) blur(0.6px);
+      transition: transform 520ms cubic-bezier(0.2, 0.85, 0.2, 1), opacity 300ms ease, filter 300ms ease;
+    }
+
+    .chip-piece-1 {
+      clip-path: inset(0 66.66% 0 0);
+      transform: translateX(-32px) rotate(-3deg);
+    }
+
+    .chip-piece-2 {
+      clip-path: inset(0 33.33% 0 33.33%);
+      transform: translateY(28px) scale(0.98);
+    }
+
+    .chip-piece-3 {
+      clip-path: inset(0 0 0 66.66%);
+      transform: translateX(32px) rotate(3deg);
+    }
+
+    .chip-frame.assembled-1 .chip-piece-1,
+    .chip-frame.assembled-2 .chip-piece-1,
+    .chip-frame.assembled-2 .chip-piece-2,
+    .chip-frame.assembled-3 .chip-piece {
+      opacity: 1;
+      filter: none;
+      transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+
+    .chip-slots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .chip-slot {
+      width: 28px;
+      height: 4px;
+      border-radius: 999px;
+      background: #dfe7f0;
+      transition: background 240ms ease;
+    }
+
+    .chip-frame.assembled-1 ~ .chip-slots .chip-slot:nth-child(1),
+    .chip-frame.assembled-2 ~ .chip-slots .chip-slot:nth-child(-n + 2),
+    .chip-frame.assembled-3 ~ .chip-slots .chip-slot {
+      background: var(--brand-orange);
     }
 
     .content {
@@ -211,6 +290,8 @@
     .score {
       color: var(--muted);
       font-weight: 700;
+      flex: 1;
+      text-align: center;
     }
 
     .primary {
@@ -229,6 +310,70 @@
       opacity: 0.45;
       cursor: default;
       box-shadow: none;
+    }
+
+    .secondary {
+      background: var(--brand-navy);
+      box-shadow: 0 14px 28px rgba(0, 21, 41, 0.18);
+    }
+
+    .celebration {
+      display: none;
+      position: relative;
+      min-height: 520px;
+      text-align: center;
+      padding: clamp(38px, 6vw, 68px) clamp(24px, 5vw, 56px);
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 107, 0, 0.11), transparent 34%),
+        linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    }
+
+    .celebration.show { display: block; }
+
+    .fireworks {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .celebration-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      min-height: 360px;
+    }
+
+    .celebration-chip {
+      width: min(100%, 330px);
+      border-radius: 8px;
+      border: 1px solid rgba(215, 229, 243, 0.82);
+      box-shadow: 0 22px 52px rgba(0, 21, 41, 0.12);
+      margin-bottom: 28px;
+    }
+
+    .celebration h2 {
+      margin: 0;
+      color: var(--brand-navy);
+      font-size: clamp(38px, 7vw, 72px);
+      letter-spacing: 0;
+    }
+
+    .celebration p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: clamp(16px, 2.2vw, 22px);
+      font-weight: 800;
+    }
+
+    .celebration .primary {
+      margin-top: 34px;
+      min-height: 66px;
+      min-width: min(100%, 320px);
+      font-size: clamp(21px, 3.5vw, 30px);
     }
 
     .result {
@@ -275,6 +420,32 @@
       font-size: clamp(22px, 4vw, 34px);
     }
 
+    .result-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 34px;
+    }
+
+    .result-actions .primary {
+      width: min(100%, 260px);
+      min-height: 72px;
+      margin-top: 0;
+      font-size: clamp(22px, 4vw, 34px);
+    }
+
+    .result-actions #drawBtn {
+      background: var(--brand-orange);
+      box-shadow: 0 14px 28px rgba(255, 107, 0, 0.24);
+    }
+
+    .result-actions #restartBtn {
+      background: var(--brand-navy);
+      box-shadow: 0 14px 28px rgba(0, 21, 41, 0.2);
+    }
+
     .hidden { display: none; }
 
     @media (max-width: 860px) {
@@ -284,8 +455,14 @@
     @media (max-width: 560px) {
       .options { grid-template-columns: 1fr; }
 
+      .quiz-head {
+        align-items: flex-start;
+        flex-direction: column-reverse;
+      }
+
       .topbar,
-      .actions {
+      .actions,
+      .result-actions {
         align-items: stretch;
         flex-direction: column;
       }
@@ -308,13 +485,37 @@
           <div class="badge" id="scoreBadge">0점</div>
         </div>
 
+        <div class="chip-assembly" id="chipAssembly">
+          <div class="chip-frame assembled-0" id="chipFrame" aria-label="V110 조립 진행">
+            <img class="chip-piece chip-piece-1" src="v110.png" alt="" />
+            <img class="chip-piece chip-piece-2" src="v110.png" alt="" />
+            <img class="chip-piece chip-piece-3" src="v110.png" alt="" />
+          </div>
+          <div class="chip-slots" aria-hidden="true">
+            <span class="chip-slot"></span>
+            <span class="chip-slot"></span>
+            <span class="chip-slot"></span>
+          </div>
+        </div>
+
         <div class="content" id="quizContent">
           <h2 class="question" id="question"></h2>
           <div class="options" id="options"></div>
           <div class="explain" id="explain"></div>
           <div class="actions">
+            <button class="primary secondary" id="prevBtn" disabled>이전 문제</button>
             <div class="score" id="feedback">정답을 골라주세요.</div>
             <button class="primary" id="nextBtn" disabled>다음 문제</button>
+          </div>
+        </div>
+
+        <div class="celebration" id="celebration">
+          <canvas class="fireworks" id="fireworksCanvas" aria-hidden="true"></canvas>
+          <div class="celebration-content">
+            <img class="celebration-chip" src="v110.png" alt="V110" />
+            <h2>축하합니다!</h2>
+            <p>저희의 칩을 선물로 드리겠습니다.</p>
+            <button class="primary" id="celebrationBtn">경품 뽑기</button>
           </div>
         </div>
 
@@ -322,8 +523,10 @@
           <img class="result-logo" src="dnotitia-logo-full.png" alt="Dnotitia" />
           <h2 id="resultTitle">경품 추첨</h2>
           <div class="winner hidden" id="winner"></div>
-          <button class="primary draw-button" id="drawBtn">경품 뽑기</button>
-          <button class="primary hidden" id="restartBtn">다시 시작</button>
+          <div class="result-actions">
+            <button class="primary draw-button" id="drawBtn">경품 뽑기</button>
+            <button class="primary hidden" id="restartBtn">다시 시작</button>
+          </div>
         </div>
       </div>
     </section>
@@ -357,12 +560,13 @@
     ];
 
     let index = 0;
-    let score = 0;
+    let answered = [];
     let selected = false;
 
     const questionEl = document.getElementById("question");
     const optionsEl = document.getElementById("options");
     const explainEl = document.getElementById("explain");
+    const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
     const feedbackEl = document.getElementById("feedback");
     const progressBar = document.getElementById("progressBar");
@@ -370,25 +574,140 @@
     const scoreBadge = document.getElementById("scoreBadge");
     const quizContent = document.getElementById("quizContent");
     const quizTop = document.getElementById("quizTop");
+    const chipAssembly = document.getElementById("chipAssembly");
+    const chipFrame = document.getElementById("chipFrame");
+    const celebration = document.getElementById("celebration");
+    const fireworksCanvas = document.getElementById("fireworksCanvas");
+    const celebrationBtn = document.getElementById("celebrationBtn");
     const result = document.getElementById("result");
     const resultTitle = document.getElementById("resultTitle");
     const winner = document.getElementById("winner");
     const drawBtn = document.getElementById("drawBtn");
     const restartBtn = document.getElementById("restartBtn");
-    const prizes = ["스타벅스 기프트카드", "포카칩", "꼬북칩", "포테토칩", "스윙칩", "HBM칩"];
+
+    const prizes = [
+      { name: "스타벅스 기프트카드", chance: 20 },
+      { name: "꼬북칩", chance: 80 / 6 },
+      { name: "허니버터칩", chance: 80 / 6 },
+      { name: "스윙칩", chance: 80 / 6 },
+      { name: "포카칩", chance: 80 / 6 },
+      { name: "포테토칩", chance: 80 / 6 },
+      { name: "콘칩", chance: 80 / 6 }
+    ];
+
+    const fireworksContext = fireworksCanvas.getContext("2d");
+    let fireworksAnimation = null;
+    let particles = [];
+
+    function resizeFireworks() {
+      const rect = celebration.getBoundingClientRect();
+      fireworksCanvas.width = Math.max(1, Math.floor(rect.width));
+      fireworksCanvas.height = Math.max(1, Math.floor(rect.height));
+    }
+
+    function launchFirework() {
+      const x = Math.random() * fireworksCanvas.width;
+      const y = 70 + Math.random() * Math.max(80, fireworksCanvas.height * 0.42);
+      const colors = ["#ff6b00", "#001529", "#18a9c9", "#1fba8a", "#ffb15f"];
+
+      for (let i = 0; i < 34; i += 1) {
+        const angle = (Math.PI * 2 * i) / 34;
+        const speed = 1.4 + Math.random() * 2.8;
+
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 54 + Math.random() * 22,
+          age: 0,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+    }
+
+    function renderFireworks() {
+      fireworksContext.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+
+      if (Math.random() < 0.075) {
+        launchFirework();
+      }
+
+      particles = particles.filter((particle) => particle.age < particle.life);
+
+      particles.forEach((particle) => {
+        particle.age += 1;
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.vy += 0.035;
+
+        const alpha = 1 - particle.age / particle.life;
+        fireworksContext.globalAlpha = alpha;
+        fireworksContext.fillStyle = particle.color;
+        fireworksContext.beginPath();
+        fireworksContext.arc(particle.x, particle.y, 2.2, 0, Math.PI * 2);
+        fireworksContext.fill();
+      });
+
+      fireworksContext.globalAlpha = 1;
+      fireworksAnimation = requestAnimationFrame(renderFireworks);
+    }
+
+    function startFireworks() {
+      stopFireworks();
+      particles = [];
+      resizeFireworks();
+      launchFirework();
+      launchFirework();
+      fireworksAnimation = requestAnimationFrame(renderFireworks);
+    }
+
+    function stopFireworks() {
+      if (fireworksAnimation) {
+        cancelAnimationFrame(fireworksAnimation);
+        fireworksAnimation = null;
+      }
+
+      particles = [];
+      fireworksContext.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+    }
+
+    function updateChipAssembly(parts) {
+      const assembledParts = Math.max(0, Math.min(parts, questions.length));
+      chipFrame.className = `chip-frame assembled-${assembledParts}`;
+    }
+
+    function currentScore() {
+      return answered.filter(Boolean).length;
+    }
+
+    function pickPrize() {
+      const totalChance = prizes.reduce((sum, prize) => sum + prize.chance, 0);
+      const randomPoint = Math.random() * totalChance;
+
+      let cumulative = 0;
+
+      return prizes.find((prize) => {
+        cumulative += prize.chance;
+        return randomPoint < cumulative;
+      });
+    }
 
     function renderQuestion() {
       const q = questions[index];
-      selected = false;
+      selected = Boolean(answered[index]);
+
       questionEl.textContent = q.title;
       explainEl.textContent = "";
       explainEl.classList.remove("show");
-      feedbackEl.textContent = "정답을 골라주세요.";
-      nextBtn.disabled = true;
+      feedbackEl.textContent = selected ? "" : "정답을 골라주세요.";
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = !selected;
       nextBtn.textContent = index === questions.length - 1 ? "결과 보기" : "다음 문제";
       stepBadge.textContent = `Q${index + 1} / ${questions.length}`;
-      scoreBadge.textContent = `${score}점`;
+      scoreBadge.textContent = `${currentScore()}점`;
       progressBar.style.width = `${(index / questions.length) * 100}%`;
+      updateChipAssembly(currentScore());
       optionsEl.innerHTML = "";
 
       q.options.forEach((text, optionIndex) => {
@@ -397,8 +716,19 @@
         button.type = "button";
         button.innerHTML = `<span class="num">${optionIndex + 1}</span><strong>${text}</strong>`;
         button.addEventListener("click", () => choose(optionIndex));
+
+        if (selected) {
+          button.disabled = true;
+          if (optionIndex === q.answer) button.classList.add("correct");
+        }
+
         optionsEl.appendChild(button);
       });
+
+      if (selected) {
+        explainEl.textContent = q.explain;
+        explainEl.classList.add("show");
+      }
     }
 
     function choose(optionIndex) {
@@ -415,7 +745,7 @@
       }
 
       selected = true;
-      score += 1;
+      answered[index] = true;
 
       optionButtons.forEach((button, buttonIndex) => {
         button.disabled = true;
@@ -423,21 +753,37 @@
       });
 
       feedbackEl.textContent = "";
-      scoreBadge.textContent = `${score}점`;
+      scoreBadge.textContent = `${currentScore()}점`;
+      updateChipAssembly(currentScore());
       explainEl.textContent = q.explain;
       explainEl.classList.add("show");
       nextBtn.disabled = false;
       progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
     }
 
-    function showResult() {
+    function showCelebration() {
       quizContent.classList.add("hidden");
       quizTop.classList.add("hidden");
+      chipAssembly.classList.add("hidden");
+      result.classList.remove("show");
+      celebration.classList.add("show");
+      celebrationBtn.textContent = "경품 뽑기";
+      celebrationBtn.disabled = false;
+      startFireworks();
+    }
+
+    function showResult() {
+      stopFireworks();
+      celebration.classList.remove("show");
+      quizContent.classList.add("hidden");
+      quizTop.classList.add("hidden");
+      chipAssembly.classList.add("hidden");
       result.classList.add("show");
       resultTitle.textContent = "경품 추첨";
       winner.textContent = "";
       winner.classList.add("hidden");
       drawBtn.classList.remove("hidden");
+      drawBtn.textContent = "경품 뽑기";
       restartBtn.classList.add("hidden");
     }
 
@@ -446,8 +792,19 @@
         index += 1;
         renderQuestion();
       } else {
-        showResult();
+        showCelebration();
       }
+    });
+
+    prevBtn.addEventListener("click", () => {
+      if (index > 0) {
+        index -= 1;
+        renderQuestion();
+      }
+    });
+
+    celebrationBtn.addEventListener("click", () => {
+      showResult();
     });
 
     drawBtn.addEventListener("click", () => {
@@ -462,21 +819,30 @@
 
       setTimeout(() => {
         clearInterval(spin);
-        const prize = prizes[Math.floor(Math.random() * prizes.length)];
-        winner.textContent = prize;
-        drawBtn.classList.add("hidden");
+
+        const selectedPrize = pickPrize();
+        winner.textContent = selectedPrize.name;
+        drawBtn.classList.remove("hidden");
+        drawBtn.textContent = "한번 더 뽑기";
         restartBtn.classList.remove("hidden");
         drawBtn.disabled = false;
       }, 1500);
     });
 
-    restartBtn.addEventListener("click", () => {
+    function resetQuiz() {
       index = 0;
-      score = 0;
+      answered = [];
       quizContent.classList.remove("hidden");
       quizTop.classList.remove("hidden");
+      chipAssembly.classList.remove("hidden");
+      celebration.classList.remove("show");
       result.classList.remove("show");
+      stopFireworks();
       renderQuestion();
+    }
+
+    restartBtn.addEventListener("click", () => {
+      resetQuiz();
     });
 
     renderQuestion();
