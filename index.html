@@ -19,7 +19,9 @@
       --shadow: 0 18px 44px rgba(0, 21, 41, 0.12);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -29,7 +31,9 @@
       background: var(--paper);
     }
 
-    button { font: inherit; }
+    button {
+      font: inherit;
+    }
 
     .shell {
       min-height: 100vh;
@@ -277,7 +281,9 @@
       word-break: keep-all;
     }
 
-    .explain.show { display: block; }
+    .explain.show {
+      display: block;
+    }
 
     .actions {
       display: flex;
@@ -329,7 +335,9 @@
         linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
     }
 
-    .celebration.show { display: block; }
+    .celebration.show {
+      display: block;
+    }
 
     .fireworks {
       position: absolute;
@@ -382,7 +390,9 @@
       padding: clamp(48px, 8vw, 88px) clamp(24px, 5vw, 56px);
     }
 
-    .result.show { display: block; }
+    .result.show {
+      display: block;
+    }
 
     .result h2 {
       margin: 18px 0 0;
@@ -446,14 +456,20 @@
       box-shadow: 0 14px 28px rgba(0, 21, 41, 0.2);
     }
 
-    .hidden { display: none; }
+    .hidden {
+      display: none;
+    }
 
     @media (max-width: 860px) {
-      .shell { padding: 18px; }
+      .shell {
+        padding: 18px;
+      }
     }
 
     @media (max-width: 560px) {
-      .options { grid-template-columns: 1fr; }
+      .options {
+        grid-template-columns: 1fr;
+      }
 
       .quiz-head {
         align-items: flex-start;
@@ -467,7 +483,9 @@
         flex-direction: column;
       }
 
-      .badge { width: 100%; }
+      .badge {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -478,7 +496,6 @@
         <div class="quiz-head">
           <h1 class="quiz-title">Dnotitia Speed Quiz</h1>
         </div>
-
         <div class="topbar" id="quizTop">
           <div class="badge" id="stepBadge">Q1 / 3</div>
           <div class="progress" aria-label="진행률"><span id="progressBar"></span></div>
@@ -487,9 +504,9 @@
 
         <div class="chip-assembly" id="chipAssembly">
           <div class="chip-frame assembled-0" id="chipFrame" aria-label="V110 조립 진행">
-            <img class="chip-piece chip-piece-1" src="v110.png" alt="" />
-            <img class="chip-piece chip-piece-2" src="v110.png" alt="" />
-            <img class="chip-piece chip-piece-3" src="v110.png" alt="" />
+            <img class="chip-piece chip-piece-1" src="v110-web.jpg" alt="" />
+            <img class="chip-piece chip-piece-2" src="v110-web.jpg" alt="" />
+            <img class="chip-piece chip-piece-3" src="v110-web.jpg" alt="" />
           </div>
           <div class="chip-slots" aria-hidden="true">
             <span class="chip-slot"></span>
@@ -512,7 +529,7 @@
         <div class="celebration" id="celebration">
           <canvas class="fireworks" id="fireworksCanvas" aria-hidden="true"></canvas>
           <div class="celebration-content">
-            <img class="celebration-chip" src="v110.png" alt="V110" />
+            <img class="celebration-chip" src="v110-web.jpg" alt="V110" />
             <h2>축하합니다!</h2>
             <p>저희의 칩을 선물로 드리겠습니다.</p>
             <button class="primary" id="celebrationBtn">경품 뽑기</button>
@@ -584,7 +601,6 @@
     const winner = document.getElementById("winner");
     const drawBtn = document.getElementById("drawBtn");
     const restartBtn = document.getElementById("restartBtn");
-
     const prizes = [
       { name: "스타벅스 기프트카드", chance: 20 },
       { name: "꼬북칩", chance: 80 / 6 },
@@ -594,7 +610,6 @@
       { name: "포테토칩", chance: 80 / 6 },
       { name: "콘칩", chance: 80 / 6 }
     ];
-
     const fireworksContext = fireworksCanvas.getContext("2d");
     let fireworksAnimation = null;
     let particles = [];
@@ -613,7 +628,6 @@
       for (let i = 0; i < 34; i += 1) {
         const angle = (Math.PI * 2 * i) / 34;
         const speed = 1.4 + Math.random() * 2.8;
-
         particles.push({
           x,
           y,
@@ -634,7 +648,6 @@
       }
 
       particles = particles.filter((particle) => particle.age < particle.life);
-
       particles.forEach((particle) => {
         particle.age += 1;
         particle.x += particle.vx;
@@ -648,7 +661,6 @@
         fireworksContext.arc(particle.x, particle.y, 2.2, 0, Math.PI * 2);
         fireworksContext.fill();
       });
-
       fireworksContext.globalAlpha = 1;
       fireworksAnimation = requestAnimationFrame(renderFireworks);
     }
@@ -667,7 +679,6 @@
         cancelAnimationFrame(fireworksAnimation);
         fireworksAnimation = null;
       }
-
       particles = [];
       fireworksContext.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
     }
@@ -684,9 +695,7 @@
     function pickPrize() {
       const totalChance = prizes.reduce((sum, prize) => sum + prize.chance, 0);
       const randomPoint = Math.random() * totalChance;
-
       let cumulative = 0;
-
       return prizes.find((prize) => {
         cumulative += prize.chance;
         return randomPoint < cumulative;
@@ -696,7 +705,6 @@
     function renderQuestion() {
       const q = questions[index];
       selected = Boolean(answered[index]);
-
       questionEl.textContent = q.title;
       explainEl.textContent = "";
       explainEl.classList.remove("show");
@@ -716,12 +724,10 @@
         button.type = "button";
         button.innerHTML = `<span class="num">${optionIndex + 1}</span><strong>${text}</strong>`;
         button.addEventListener("click", () => choose(optionIndex));
-
         if (selected) {
           button.disabled = true;
           if (optionIndex === q.answer) button.classList.add("correct");
         }
-
         optionsEl.appendChild(button);
       });
 
@@ -733,7 +739,6 @@
 
     function choose(optionIndex) {
       if (selected) return;
-
       const q = questions[index];
       const optionButtons = [...optionsEl.querySelectorAll(".option")];
 
@@ -746,12 +751,10 @@
 
       selected = true;
       answered[index] = true;
-
       optionButtons.forEach((button, buttonIndex) => {
         button.disabled = true;
         if (buttonIndex === q.answer) button.classList.add("correct");
       });
-
       feedbackEl.textContent = "";
       scoreBadge.textContent = `${currentScore()}점`;
       updateChipAssembly(currentScore());
@@ -810,7 +813,6 @@
     drawBtn.addEventListener("click", () => {
       drawBtn.disabled = true;
       winner.classList.remove("hidden");
-
       let tick = 0;
       const spin = setInterval(() => {
         winner.textContent = tick % 2 === 0 ? "경품 뽑는 중" : "경품 뽑는 중...";
@@ -819,7 +821,6 @@
 
       setTimeout(() => {
         clearInterval(spin);
-
         const selectedPrize = pickPrize();
         winner.textContent = selectedPrize.name;
         drawBtn.classList.remove("hidden");
